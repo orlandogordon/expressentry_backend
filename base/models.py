@@ -9,7 +9,7 @@ class User(AbstractUser):
     bio = models.TextField(null=True, blank=True)
     hackathon_participant = models.BooleanField(default=True, null=True)
 
-    avatar = models.ImageField(default='avatar.png')
+    avatar = models.ImageField(default='default-avatar.png', upload_to="images/")
 
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 
