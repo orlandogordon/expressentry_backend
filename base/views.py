@@ -5,7 +5,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.contrib.auth.hashers import make_password
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.contrib import messages
 
+from datetime import datetime
 # Create your views here.
 
 def login_page(request):
@@ -19,7 +22,11 @@ def login_page(request):
         
         if user is not None:
             login(request, user)
+            messages.info(request, 'User succesfully logged in.')
             return redirect('home')
+        else:
+            messages.error(request, 'Email OR Password is incorrect')
+            return redirect('login')
         
 
     context = {'page': page}
@@ -33,7 +40,10 @@ def register_page(request):
             user = form.save(commit=False)
             user.save()
             login(request, user)
+            messages.success(request, 'User account created succesfully.')
             return redirect('home')
+        else:
+            messages.error(request, 'An error occurred during registration.')
 
     page='register'
     context = {'page': page, 'form': form}
@@ -41,14 +51,30 @@ def register_page(request):
 
 def logout_user(request):
     logout(request)
+    messages.info(request, 'User succesfully logged out.')
     return redirect('login')
 
 def home_page(request):
+
     users = User.objects.filter(hackathon_participant=True)
     count = users.count()
-    users = users[0:20]
+
+    page= request.GET.get('page')
+    paginator = Paginator(users, 5)
+
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        page = 1
+        users = paginator.page(page)
+    except EmptyPage:
+        page = paginator.num_pages
+        users = paginator.page(page)
+
+    pages = list(range(1, (paginator.num_pages + 1)))
+
     events = Event.objects.all()
-    context = {'users': users, 'events': events, 'count': count}
+    context = {'users': users, 'events': events, 'count': count, 'paginator': paginator, 'pages': pages}
     return render(request, 'home.html', context)
 
 def user_page(request, pk):
@@ -87,18 +113,30 @@ def change_password(request):
             new_pass = make_password(password1)
             request.user.password = new_pass
             request.user.save()
+            messages.success(request, 'Password succesfully reset.')
             return redirect('account')
+        
+        else:
+            messages.error(request, 'Passwords do not match ')
+            return redirect('change-password')
+
 
     return render(request, 'change_password.html')
 
 def event_page(request, pk):
     event = Event.objects.get(id=pk)
+    ## add functionality for date time compare of deadline and current time
+    present = datetime.now().timestamp()
+    deadline = event.registration_deadline.timestamp()
+    past_deadline = (present > deadline)
+
+
     registered = False
     submitted = False
     if request.user.is_authenticated:
         registered = request.user.events.filter(id=event.id).exists()
         submitted = Submission.objects.filter(participant=request.user, event=event).exists()
-    context = {'event': event, 'registered': registered, 'submitted': submitted}
+    context = {'event': event, 'past_deadline': past_deadline,'registered': registered, 'submitted': submitted}
     return render(request, 'event.html', context)
 
 @login_required()

@@ -2,7 +2,7 @@
 <div class="section">
   <h1>{{event.name}}</h1>
 </div>
-
+{% if past_deadline == False %}
 <div id="event--action--wrapper" class="section">
   {% if registered %}
   <p class="text--success">You have already registered for this event| |</p>
@@ -20,6 +20,9 @@
   >
   {% endif %}
 </div>
+{% else %}
+<p>Registration for this event has closed.</p>
+{% endif %}
 <div class="section">
   <p>{{event.description|linebreaks|urlize}}</p>
 </div>
