@@ -2,6 +2,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.forms import ModelForm
 from .models import Submission, User
 
+class UserForm(ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'avatar', 'bio' ]
+
 class SubmissionForm(ModelForm):
     class Meta:
         model = Submission

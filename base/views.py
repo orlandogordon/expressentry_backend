@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from .models import User, Event, Submission
-from .forms import SubmissionForm, CustomUserCreateForm
+from .forms import SubmissionForm, CustomUserCreateForm, UserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
+from django.contrib.auth.hashers import make_password
+
 # Create your views here.
 
 def login_page(request):
@@ -43,8 +45,10 @@ def logout_user(request):
 
 def home_page(request):
     users = User.objects.filter(hackathon_participant=True)
+    count = users.count()
+    users = users[0:20]
     events = Event.objects.all()
-    context = {'users': users, 'events': events}
+    context = {'users': users, 'events': events, 'count': count}
     return render(request, 'home.html', context)
 
 def user_page(request, pk):
@@ -57,6 +61,35 @@ def account_page(request):
     user = request.user
     context = {'user': user}
     return render(request, 'account.html', context)
+
+@login_required(login_url='login')
+def edit_account(request):
+    form = UserForm(instance=request.user)
+
+    if request.method == 'POST':
+        if 'avatar' in request.FILES:
+            request.FILES['avatar'].name = f"{request.user.id}.jpg"
+        form = UserForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('account')
+
+    context = {'form': form}
+    return render(request, 'user_form.html', context)
+
+@login_required(login_url='login')
+def change_password(request):
+    if request.method == 'POST':
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
+
+        if password1 == password2:
+            new_pass = make_password(password1)
+            request.user.password = new_pass
+            request.user.save()
+            return redirect('account')
+
+    return render(request, 'change_password.html')
 
 def event_page(request, pk):
     event = Event.objects.get(id=pk)

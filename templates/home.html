@@ -17,7 +17,7 @@
 </section>
 
 <section>
-  <h3>Users</h3>
+  <h3>Users : {{count}}</h3>
 
   <div class="users--lists section">
     {% for user in users %}
@@ -25,6 +25,9 @@
       <div class="wrapper--user">
         <img class="user--avatar--sm" src="{{user.avatar.url}}" />
         <h4>{{user.name}}</h4>
+        {% if user.bio %}
+        <p>{{user.bio|truncatechars:50}}</p>
+        {% endif %}
       </div>
     </a>
     {% endfor %}
