@@ -1,7 +1,35 @@
 {% extends 'main.html' %} {% block content %}
-<form method="post">
+<div
+  class="mt-12 gap-6 flex flex-col text-lg md:text-xl w-1/2 min-w-fit mx-auto"
+>
+  <div class="">
+    You are signing up for the following event:
+    <span class="font-medium">{{event.name}}</span>
+  </div>
+  <div>
+    The event organizer will have access to the following information from your
+    account:
+    <ul class="list-disc ml-10 font-medium">
+      <li>Profile Picture</li>
+      <li>Name</li>
+      <li>Email</li>
+    </ul>
+  </div>
+</div>
+<form
+  class="mt-3 flex flex-row justify-between min-w-fit w-1/4 mx-auto"
+  method="post"
+>
   {% csrf_token %}
-  <a href="{% url 'event' event.id %}">Go back</a>
-  <input type="submit" value="Confirm" />
+  <a
+    class="px-1 py-3 rounded-md block w-36 m-3 bg-secondary-400 hover:bg-secondary-700 text-white text-center cursor-pointer"
+    href="{% url 'event' event.id %}"
+    >Go back</a
+  >
+  <input
+    class="px-1 py-3 rounded-md block w-36 m-3 bg-secondary-400 hover:bg-secondary-700 text-white text-center cursor-pointer"
+    type="submit"
+    value="Confirm"
+  />
 </form>
 {% endblock content %}

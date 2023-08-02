@@ -1,10 +1,19 @@
 {% extends 'main.html' %} {% block content %}
-<h3>Submit project for {{event.name}}</h3>
-
+<h3 class="mt-12 mb-5 text-3xl font-medium">
+  Submit project for {{ event.name }}
+</h3>
 <div>
   <form method="POST">
-    {% csrf_token %} {{form.as_p}}
-    <input type="submit" />
+    {% csrf_token %} {% for field in form %}
+    <div class="my-5 flex flex-col max-w-lg">
+      <label class="text-lg font-semibold">{{ field.label }}</label>
+      {{ field }}
+    </div>
+    {% endfor %}
+    <input
+      class="px-1 py-3 rounded-md block w-36 m-3 bg-secondary-400 hover:bg-secondary-700 text-white text-center cursor-pointer"
+      type="submit"
+    />
   </form>
 </div>
 {% endblock content %}

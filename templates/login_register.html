@@ -1,44 +1,58 @@
 {% extends 'main.html' %} {% block content %} {% if page == 'register' %}
-<div class="login-register--container">
-  <h1>Register</h1>
+<div class="max-w-xl md:p-12 mx-auto my-7">
+  <h1 class="font-medium text-3xl text-center md:text-left my-3">Register</h1>
   <div>
     <form method="POST" action="{% url 'register' %}">
       {% csrf_token %} {% for field in form %}
-      <div class="form-field--wrapper">
-        <label>{{field.label}}</label>
-        {{field}}
+      <div class="my-5 flex flex-col">
+        <label class="text-lg font-semibold">{{ field.label }}</label>
+        {{ field }}
         <div>
           {% for error in field.errors %}
-          <p class="error">{{error}}</p>
+          <p class="text-red-600">{{ error }}</p>
           {% endfor %}
         </div>
       </div>
       {% endfor %}
-      <input class="btn btn--primary" type="submit" value="Register" />
+      <div class="flex flex-col md:flex-row">
+        <input
+          class="px-3 py-5 rounded-md block w-36 m-3 bg-secondary-400 hover:bg-secondary-700 text-white text-center cursor-pointer"
+          type="submit"
+          value="Register"
+        />
+        <p class="py-7">
+          Already have an account?
+          <a class="hover:font-medium" href="{% url 'login' %}">Login here</a>
+        </p>
+      </div>
     </form>
   </div>
 </div>
-
 {% else %}
-<div class="login-register--container section">
-  <h1>Login</h1>
+<div class="max-w-xl md:p-12 mx-auto my-7">
+  <h1 class="font-medium text-3xl text-center md:text-left my-3">Login</h1>
   <form method="POST" action="{% url 'login' %}">
     {% csrf_token %}
-    <div class="form-field--wrapper">
-      <label>Email:</label>
+    <div class="my-5 flex flex-col">
+      <label class="text-lg font-semibold">Email:</label>
       <input type="email" name="email" />
     </div>
-    <div class="form-field--wrapper">
-      <label>Password:</label>
+    <div class="my-5 flex flex-col">
+      <label class="text-lg font-semibold">Password:</label>
       <input type="password" name="password" />
     </div>
-
-    <div class="form-field--wrapper">
-      <input class="btn btn--primary" type="submit" value="Login" />
+    <div class="my-5 flex justify-start">
+      <input
+        class="px-1 py-3 rounded-md block w-32 m-3 bg-secondary-400 hover:bg-secondary-700 text-white text-center cursor-pointer"
+        type="submit"
+        value="Login"
+      />
     </div>
-
     <p>
-      Don't have an account? <a href="{% url 'register' %}">Create one here</a>
+      Don't have an account?
+      <a class="hover:font-medium" href="{% url 'register' %}"
+        >Create one here</a
+      >
     </p>
   </form>
 </div>

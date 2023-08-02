@@ -1,19 +1,22 @@
 {% extends 'main.html' %} {% block content %}
-
-<h1>Edit Account</h1>
-
-<div class="section">
+<h1 class="font-medium text-3xl text-center md:text-left mt-7 mb-5">
+  Edit Account
+</h1>
+<div class="my-2">
   <form method="POST" enctype="multipart/form-data">
     {% csrf_token %} {% for field in form %}
-    <div class="form-field--wrapper">
-      <label>{{field.label}}</label>
-      {{field}}
+    <div class="my-5 flex flex-col max-w-lg">
+      <label class="text-lg font-semibold">{{ field.label }}</label>
+      {{ field }}
     </div>
     {% endfor %}
-    <div class="form-field--wrapper">
-      <input class="btn btn--primary" type="submit" value="Update Account" />
+    <div class="flex flex-col md:flex-row">
+      <input
+        class="px-1 py-3 rounded-md block w-36 m-3 bg-secondary-400 hover:bg-secondary-700 text-white text-center cursor-pointer"
+        type="submit"
+        value="Update Account"
+      />
     </div>
   </form>
 </div>
-
 {% endblock content %}

@@ -1,41 +1,245 @@
 {% extends 'main.html' %} {% block content %}
-<h1>Home Page Test</h1>
-<section class="container--events">
-  <h3>Events</h3>
-
-  <div class="events--lists">
-    {% for event in events %}
-    <a href="{% url 'event' event.id %}">
-      <div class="event__wrapper">
-        <h3>{{event.name}}</h3>
-        <p>{{event.participants.all.count}} registered</p>
-        <p>Registration deadline: {{event.registration_deadline}}</p>
+<div class="lg:px-6 2xl:px-0 min-h-screen lg:py-20 py-10">
+  <div class="mx-auto container relative z-0 px-4 xl:px-0">
+    <div class="flex flex-col-reverse md:flex-row">
+      <div class="md:w-3/5 2xl:py-20">
+        <h1
+          class="text-3xl lg:text-6xl xl:text-8xl font-black text-gray-900 text-center md:text-left tracking-tighter f-f-i md:w-7/12 leading-tight text-heading-color"
+        >
+          Code, Collaborate, Achieve More!
+        </h1>
+        <h2
+          class="md:w-8/12 my-4 text-center md:text-left md:my-8 text-gray-700 text-lg lg:text-2xl"
+        >
+          Ready to level up your skills and network with like-minded creators at
+          Dev Realm's vibrant hackathons and webinars?
+        </h2>
+        <div class="w-full flex justify-center md:block">
+          <button
+            class="hover:opacity-90 bg-secondary-400 py-3 px-10 lg:py-7 lg:px-20 rounded-full text-white text-sm md:text-lg f-f-p focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-500"
+          >
+            Join Now
+          </button>
+        </div>
       </div>
-    </a>
-    {% endfor %}
-  </div>
-</section>
-
-<section>
-  <h3>Users : {{count}}</h3>
-
-  <div class="users--lists section">
-    {% for user in users %}
-    <a href="{% url 'profile' user.id %}">
-      <div class="wrapper--user">
-        <img class="user--avatar--sm" src="{{user.avatar.url}}" />
-        <h4>{{user.name}}</h4>
-        {% if user.bio %}
-        <p>{{user.bio|truncatechars:50}}</p>
-        {% endif %}
+      <div
+        class="w-1/2 sm:w-2/5 h-64 md:h-auto m-auto flex items-center overflow-hidden"
+      >
+        <img
+          class="md:absolute md:w-1/2 md:-ml-28"
+          src="https://devrealm-bucket.s3.amazonaws.com/images/hero.png"
+          alt="Laptop with web application on screen"
+          role="img"
+        />
       </div>
-    </a>
-    {% endfor %}
+    </div>
   </div>
-  <div class="section paginator--wrapper">
-    {% for page in pages %}
-    <a class="btn btn--primary" href="?page={{page}}">{{page}}</a>
-    {% endfor %}
+</div>
+
+<div
+  class="2xl:container 2xl:mx-auto lg:py-16 lg:px-20 md:py-12 md:px-6 py-9 px-4"
+>
+  <p class="font-medium text-md leading-3 text-secondary-500 pb-2">About</p>
+  <div class="flex lg:flex-row flex-col lg:gap-8 sm:gap-10 gap-12">
+    <div class="w-full lg:w-6/12">
+      <h2 class="w-full font-bold lg:text-4xl text-3xl lg:leading-10 leading-9">
+        We are here to unlock creativity and embrace collaboration for our
+        passionate developer community
+      </h2>
+      <p class="font-normal text-base leading-6 text-gray-600 mt-6">
+        At Dev Realm, our mission is to foster a vibrant community of
+        developers, designers, and tech enthusiasts. Through our engaging
+        hackathons and insightful webinars, we empower individuals to unleash
+        their potential and embrace innovation. Join us on this journey to
+        learn, collaborate, and achieve more, as we make the world of design and
+        technology accessible and delightful for everyone.
+      </p>
+    </div>
+    <div class="w-full lg:w-6/12">
+      <img
+        class="lg:block hidden w-full"
+        src="https://i.ibb.co/RjNH7QB/Rectangle-122-1.png"
+        alt="people discussing on board"
+      />
+      <img
+        class="lg:hidden sm:block hidden w-full"
+        src="https://i.ibb.co/16fPqrg/Rectangle-122-2.png"
+        alt="people discussing on board"
+      />
+      <img
+        class="sm:hidden block w-full"
+        src="https://i.ibb.co/Jxhpxh6/Rectangle-122.png"
+        alt="people discussing on board"
+      />
+    </div>
   </div>
-</section>
+
+  <div class="relative mt-24">
+    <div class="grid sm:grid-cols-3 grid-cols-2 sm:gap-8 gap-4">
+      <div
+        class="z-20 w-12 h-12 bg-gray-800 rounded-full flex justify-center items-center"
+      >
+        <img
+          src="https://tuk-cdn.s3.amazonaws.com/can-uploader/about-us-3-svg1.svg"
+          alt="flag"
+        />
+      </div>
+
+      <img
+        class="z-20"
+        src="https://tuk-cdn.s3.amazonaws.com/can-uploader/about-us-3-svg2.svg"
+        alt="note"
+      />
+
+      <img
+        class="z-20 sm:block hidden"
+        src="https://tuk-cdn.s3.amazonaws.com/can-uploader/about-us-3-svg3.svg"
+        alt="users"
+      />
+    </div>
+  </div>
+  <div class="grid sm:grid-cols-3 grid-cols-2 sm:gap-8 gap-4">
+    <div>
+      <p
+        class="font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 text-gray-800 mt-6"
+      >
+        Founded
+      </p>
+      <p class="font-normal text-base leading-6 text-gray-600 mt-6">
+        Founded by developers, for developers. Dev Realm was built to foster a
+        thriving community and empower fellow tech enthusiasts to excel in their
+        creative pursuits.
+      </p>
+    </div>
+    <div>
+      <p
+        class="font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 text-gray-800 mt-6"
+      >
+        Montly Events
+      </p>
+      <p class="font-normal text-base leading-6 text-gray-600 mt-6">
+        Our community hosts engaging events every month, creating a reliable
+        space for developers to connect, learn, and grow together.
+      </p>
+    </div>
+    <div class="sm:block hidden">
+      <p
+        class="font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 text-gray-800 mt-6"
+      >
+        100+ Users
+      </p>
+      <p class="font-normal text-base leading-6 text-gray-600 mt-6">
+        In just a short time since its launch, our website has experienced
+        remarkable growth, attracting a thriving community of enthusiastic
+        users.
+      </p>
+    </div>
+  </div>
+
+  <div
+    class="flex lg:flex-row flex-col md:gap-14 gap-16 justify-between lg:mt-20 mt-16"
+  >
+    <div class="w-full lg:w-6/12">
+      <h2
+        class="font-bold lg:text-4xl text-3xl lg:leading-9 leading-7 text-gray-800"
+      >
+        Our Mission
+      </h2>
+      <p
+        class="font-normal text-base leading-6 text-gray-600 mt-6 w-full lg:w-10/12 xl:w-9/12"
+      >
+        At Dev Realm, our mission is to create a transformative platform that
+        ignites the potential of developers and designers worldwide. With a
+        passionate commitment to accessibility and delight, we foster an
+        inclusive community where every member can unlock their creativity and
+        excel in the world of technology. By curating engaging hackathons and
+        insightful webinars, we provide an inspiring space for individuals to
+        connect, collaborate, and continuously learn from one another.
+      </p>
+      <p
+        class="font-normal text-base leading-6 text-gray-600 w-full lg:w-10/12 xl:w-9/12 mt-10"
+      >
+        Driven by the ethos of developers for developers, our vision is to
+        empower aspiring minds and seasoned professionals alike, enabling them
+        to craft extraordinary experiences. We are dedicated to celebrating
+        innovation, embracing diversity, and cultivating a dynamic ecosystem
+        that thrives on shared knowledge and collective growth. Together, we
+        embark on a journey to make great design and technology accessible for
+        everyone, forging a brighter, more innovative future for all.
+      </p>
+    </div>
+    <div class="w-full lg:w-6/12">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 lg:gap-12 gap-10"
+      >
+        <!-- Team Card -->
+        <div class="flex p-4 shadow-md">
+          <div class="mr-6">
+            <img
+              class="mr-6"
+              src="https://tuk-cdn.s3.amazonaws.com/can-uploader/about-us-3-svg4.svg"
+              alt="team card"
+            />
+          </div>
+          <div class="">
+            <p
+              class="font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 text-gray-800"
+            >
+              Team
+            </p>
+            <p class="mt-2 font-normal text-base leading-6 text-gray-600">
+              We boast a team of highly skilled hackathon organizers and webinar
+              speakers, dedicated to delivering exceptional experiences and
+              insights to our community.
+            </p>
+          </div>
+        </div>
+
+        <!-- Board Card -->
+        <div class="flex p-4 shadow-md">
+          <div class="mr-6">
+            <img
+              src="https://tuk-cdn.s3.amazonaws.com/can-uploader/about-us-3-svg5.svg"
+              alt="board card"
+            />
+          </div>
+          <div class="">
+            <p
+              class="font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 text-gray-800"
+            >
+              Community
+            </p>
+            <p class="mt-2 font-normal text-base leading-6 text-gray-600">
+              We take pride in maintaining an inclusive environment where
+              members can interact and form teams with other devs for hackathon
+              events
+            </p>
+          </div>
+        </div>
+
+        <!-- Press Card -->
+        <div class="flex p-4 shadow-md">
+          <div class="mr-6">
+            <img
+              src="https://tuk-cdn.s3.amazonaws.com/can-uploader/about-us-3-svg6.svg"
+              alt="press card"
+            />
+          </div>
+          <div class="">
+            <p
+              class="font-semibold lg:text-2xl text-xl lg:leading-6 leading-5 text-gray-800"
+            >
+              Newsletter
+            </p>
+            <p class="mt-2 font-normal text-base leading-6 text-gray-600">
+              Stay tuned for our upcoming newsletter, packed with enriching
+              educational content and exciting community shoutouts, keeping you
+              connected and inspired.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

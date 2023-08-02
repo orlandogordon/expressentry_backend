@@ -1,15 +1,144 @@
-<nav>
-  <div>
-    <a href="{% url 'home' %}">Home</a>
-    {% if request.user.is_authenticated %}
-    <a href="{% url 'account' %}">My Account</a>
-    {% endif %}
-  </div>
-  <div>
-    {% if request.user.is_authenticated %}
-    <a class="btn btn--warning" href="{% url 'logout' %}">Logout</a>
-    {% else %}
-    <a class="btn btn--primary" href="{% url 'login' %}">Login</a>
-    {% endif %}
-  </div>
-</nav>
+<div class="mx-auto z-20">
+  <nav class="w-full bg-secondary-500 px-8">
+    <div
+      class="hidden lg:flex w-full f-f-p justify-between items-center py-6 relative"
+    >
+      <a href="{% url 'home' %}">
+        <img
+          class="h-10 inline"
+          src="https://devrealm-bucket.s3.amazonaws.com/images/logo.png"
+          alt="logo"
+        />
+      </a>
+      <div class="md:w-1/2 xl:w-1/3">
+        <ul
+          class="flex justify-between w-full items-center text-white font-medium"
+        >
+          <li class="border-b-4 hover:border-primary-500 border-transparent">
+            <a href="{% url 'hackathons' %}">Hackathons</a>
+          </li>
+          <li class="border-b-4 hover:border-primary-500 border-transparent">
+            <a href="{% url 'seminars' %}">Seminars</a>
+          </li>
+          {% if request.user.is_authenticated %}
+          <li class="border-b-4 hover:border-primary-500 border-transparent">
+            <a href="{% url 'account' %}">My Account</a>
+          </li>
+          {% endif %} {% if request.user.is_authenticated %}
+          <a href="{% url 'logout' %}">
+            <button
+              class="bg-slate-200 text-secondary-500 duration-500 px-6 py-2 mx-4 hover:bg-slate-500 hover:text-white rounded"
+            >
+              Logout
+            </button></a
+          >
+          {% else %}
+          <a href="{% url 'login' %}">
+            <button
+              class="bg-slate-200 font-medium text-secondary-500 duration-500 px-6 py-2 mx-4 hover:bg-slate-500 hover:text-white rounded"
+            >
+              Login
+            </button></a
+          >
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <nav class="lg:hidden">
+    <div class="flex py-6 justify-between items-center px-4 bg-secondary-500">
+      <a href="{% url 'home' %}">
+        <img
+          class="h-10 inline"
+          src="https://devrealm-bucket.s3.amazonaws.com/images/logo.png"
+          alt="logo"
+        />
+      </a>
+      <div class="visible flex items-center">
+        <button
+          id="open"
+          class="xl:hidden focus:ring-2 focus:outline-none focus:ring-gray-600"
+          onclick="MenuHandler(true)"
+        >
+          <img
+            onclick="MenuHandler(true)"
+            src="https://devrealm-bucket.s3.amazonaws.com/images/icons-hamburger-white.svg"
+            alt="menuhandler"
+          />
+        </button>
+        <ul
+          id="list"
+          class="hidden p-2 border-r bg-secondary-500 absolute rounded top-0 left-0 right-0 shadow mt-16 md:mt-16 text-slate-100"
+        >
+          <li
+            class="flex cursor-pointer text-sm leading-3 tracking-normal mt-2 py-2 hover:text-primary-500 focus:text-primary-500 focus:outline-none"
+          >
+            <a
+              href="{% url 'hackathons' %}"
+              class="ml-2 focus:outline-none focus:ring-2 focus:ring-gray-600"
+            >
+              <span class="font-bold">Hackathons</span>
+            </a>
+          </li>
+          <li
+            class="flex cursor-pointer text-sm leading-3 tracking-normal py-2 hover:text-primary-500 focus:text-primary-500 focus:outline-none"
+            onclick="dropdownHandler(this)"
+          >
+            <a
+              href="{% url 'seminars' %}"
+              class="ml-2 focus:outline-none focus:ring-2 focus:ring-gray-600"
+            >
+              <span class="font-bold">Seminars</span>
+            </a>
+          </li>
+          {% if request.user.is_authenticated %}
+          <li
+            class="flex cursor-pointer text-sm leading-3 tracking-normal py-2 hover:text-primary-500 flex items-center focus:text-primary-500 focus:outline-none"
+          >
+            <a
+              href="{% url 'account' %}"
+              class="ml-2 focus:outline-none focus:ring-2 focus:ring-gray-600"
+            >
+              <span class="font-bold">My Account</span>
+            </a>
+          </li>
+          {% endif %} {% if request.user.is_authenticated %}
+          <li
+            class="flex cursor-pointer text-sm leading-3 tracking-normal py-2 hover:text-primary-500 flex items-center focus:text-primary-500 focus:outline-none"
+          >
+            <a
+              href="{% url 'logout' %}"
+              class="ml-2 focus:outline-none focus:ring-2 focus:ring-gray-600"
+            >
+              <span class="font-bold">Logout</span>
+            </a>
+          </li>
+          {% else %}
+          <li
+            class="flex cursor-pointer text-sm leading-3 tracking-normal py-2 hover:text-primary-500 flex items-center focus:text-primary-500 focus:outline-none"
+          >
+            <a
+              href="{% url 'login' %}"
+              class="ml-2 focus:outline-none focus:ring-2 focus:ring-gray-600"
+            >
+              <span class="font-bold">Login</span>
+            </a>
+          </li>
+          {% endif %}
+        </ul>
+        <div class="xl:hidden">
+          <button
+            id="close"
+            class="hidden close-m-menu focus:ring-2 focus:outline-none focus:ring-gray-600"
+            onclick="MenuHandler(false)"
+          >
+            <img
+              src="https://devrealm-bucket.s3.amazonaws.com/images/icons8-x-white.svg"
+              alt="close handler"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>

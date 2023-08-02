@@ -1,5 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm
-from django.forms import ModelForm
+from django.forms import ModelForm, Textarea
 from .models import Submission, User
 
 class UserForm(ModelForm):
@@ -10,7 +10,10 @@ class UserForm(ModelForm):
 class SubmissionForm(ModelForm):
     class Meta:
         model = Submission
-        fields = ['details']
+        fields = ['demo', 'details']
+        widgets = {
+            "details": Textarea(attrs={"cols": 40, "rows": 5}),
+        }
 
 class CustomUserCreateForm(UserCreationForm):
     class Meta:

@@ -23,8 +23,15 @@ class User(AbstractUser):
     website = models.URLField(max_length=500, null=True, blank=True)
 
 class Event(models.Model):
+    # Event Type Choices
+    CHOICES = (
+        ('hackathon', 'Hackathon'),
+        ('seminar', 'Seminar'),
+    )
+
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
+    event_type = models.CharField(max_length=100, choices=CHOICES, default='hackathon')
     participants = models.ManyToManyField(User, blank=True, related_name='events') 
     start_date = models.DateTimeField(null=True)
     end_date = models.DateTimeField(null=True)
@@ -40,6 +47,7 @@ class Event(models.Model):
 class Submission(models.Model):
     participant = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='submissions')
     event = models.ForeignKey(Event, on_delete=models.SET_NULL, null=True)
+    demo = models.URLField(max_length=500, null=True)
     details = models.TextField(null=True, blank=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 

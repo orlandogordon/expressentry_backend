@@ -1,0 +1,40 @@
+{% extends 'main.html' %} {% block content %}
+<h1 class="font-medium text-4xl md:text-5xl text-center mt-8">
+  Dev Realm Seminars
+</h1>
+<h3 class="font-medium text-3xl text-center md:text-left mt-3">
+  Active Events
+</h3>
+<div class="grid md:grid-cols-3 gap-8 sm:grid-cols-1 my-8">
+  {% for event in events %}
+  <a href="{% url 'event' event.id %}">
+    <div class="border border-secondary-500 p-8 rounded-md flex flex-col">
+      <h3 class="font-medium text-2xl text-center">{{ event.name }}</h3>
+      <p class="text-center mt-3 text-lg">
+        Registration deadline: {{ event.registration_deadline }}
+      </p>
+      <p class="text-right mt-2">
+        {{ event.participants.all.count }} registered
+      </p>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+
+<h3 class="font-medium text-3xl text-center md:text-left mt-3">Past Events</h3>
+<div class="grid md:grid-cols-3 gap-8 sm:grid-cols-1 my-8">
+  {% for event in events %}
+  <a href="{% url 'event' event.id %}">
+    <div class="border border-secondary-500 p-8 rounded-md flex flex-col">
+      <h3 class="font-medium text-2xl text-center">{{ event.name }}</h3>
+      <p class="text-center mt-3 text-lg">
+        Registration deadline: {{ event.registration_deadline }}
+      </p>
+      <p class="text-right mt-2">
+        {{ event.participants.all.count }} registered
+      </p>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

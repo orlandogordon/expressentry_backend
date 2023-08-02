@@ -1,33 +1,57 @@
 {% extends 'main.html' %} {% block content %}
-<div class="section">
-  <img class="user--avatar--lg" src="{{user.avatar.url}}" />
-  <h1>My account</h1>
 
-  <a class="btn btn--warning" href="{% url 'edit-account' %}">Edit</a>
-  <a class="btn btn--warning" href="{% url 'change-password' %}"
-    >Reset Password</a
-  >
-  <a class="btn btn--warning" href="{% url 'profile' user.id %}"
-    >View Profile</a
-  >
-</div>
-<div class="section">
-  <h3>My Events</h3>
-  {% for event in user.events.all %}
-  <a href="{% url 'event' event.id %}">{{event.name}}</a>
-
-  {% empty %}
-  <p>You haven't registered for any events</p>
-  {% endfor %}
-</div>
-
-<div class="section">
-  <h3>My Submissions</h3>
-  {% for sub in user.submissions.all %}
-  <a href="{% url 'update-submission' sub.id %}">{{sub.event.name}}</a>
-
-  {% empty %}
-  <p>You haven't submitted any projects yet</p>
-  {% endfor %}
-</div>
+<section class="w-4/5 mx-auto my-8">
+  <h1 class="text-5xl text-center font-medium">My Account</h1>
+  <div class="mt-8">
+    <img
+      class="h-60 w-60 object-cover rounded-full mx-auto md:mx-0 my-5"
+      src="{{ user.avatar.url }}"
+    />
+    <div class="flex flex-col md:flex-row">
+      <a
+        class="px-3 py-5 rounded-md block w-36 m-3 bg-secondary-400 hover:bg-secondary-700 text-white text-center"
+        href="{% url 'edit-account' %}"
+        >Edit</a
+      >
+      <a
+        class="px-3 py-5 rounded-md block w-36 m-3 bg-secondary-400 hover:bg-secondary-700 text-white text-center"
+        href="{% url 'change-password' %}"
+        >Reset Password</a
+      >
+      <a
+        class="px-3 py-5 rounded-md block w-36 m-3 bg-secondary-400 hover:bg-secondary-700 text-white text-center"
+        href="{% url 'profile' user.id %}"
+        >View Profile</a
+      >
+    </div>
+  </div>
+  <div class="my-2">
+    <h3 class="font-medium text-3xl my-3">My Events</h3>
+    <div class="flex flex-col gap-4">
+      {% for event in user.events.all %}
+      <a
+        class="text-lg hover:text-xl transition-all duration-750"
+        href="{% url 'event' event.id %}"
+        >{{ event.name }}</a
+      >
+      {% empty %}
+      <p>You haven't registered for any events</p>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="my-2">
+    <h3 class="font-medium text-3xl my-3">My Submissions</h3>
+    <div class="flex flex-col gap-4">
+      {% for sub in user.submissions.all %}
+      <a
+        class="text-lg hover:text-xl transition-all duration-750"
+        href="{% url 'update-submission' sub.id %}"
+        >{{ sub.event.name }}</a
+      >
+      {% empty %}
+      <p>You haven't submitted any projects yet</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
 {% endblock content %}

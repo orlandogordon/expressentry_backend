@@ -1,41 +1,53 @@
 {% extends 'main.html' %} {% block content %}
-<div class="section">
-  <h1>{{event.name}}</h1>
+<div class="mt-10 mb-3">
+  <h1 class="text-5xl text-center font-medium">{{ event.name }}</h1>
 </div>
 {% if past_deadline == False %}
-<div id="event--action--wrapper" class="section">
-  {% if registered %}
-  <p class="text--success">You have already registered for this event| |</p>
+<div class="my-3 flex flex-row">
+  {% if registered and isHackathon %} {% if submitted %}
+  <p class="text-green-700 py-2">You have already submitted your project</p>
   {% else %}
   <a
-    class="btn btn--primary"
+    class="px-1 py-3 rounded-md block w-36 m-3 bg-secondary-400 hover:bg-secondary-700 text-white text-center"
+    href="{% url 'project-submission' event.id %}"
+    >Submit Project</a
+  >
+  {% endif %} {% else %}
+  <a
+    class="px-1 py-3 rounded-md block w-36 m-3 bg-secondary-400 hover:bg-secondary-700 text-white text-center"
     href="{% url 'registration-confirmation' event.id %}"
     >Register</a
-  >
-  {% endif %} {% if submitted %}
-  <p class="text--success">You have already submitted your project</p>
-  {% else %}
-  <a class="btn btn--primary" href="{% url 'project-submission' event.id %}"
-    >Submit Project</a
   >
   {% endif %}
 </div>
 {% else %}
 <p>Registration for this event has closed.</p>
 {% endif %}
-<div class="section">
-  <p>{{event.description|linebreaks|urlize}}</p>
+<div class="my-3">
+  <h3 class="font-medium text-3xl text-center md:text-left mt-3 mb-1">
+    Event Details
+  </h3>
+  <p>{{ event.description|linebreaks|urlize }}</p>
 </div>
-<div class="section">
-  <h3>Event Participants</h3>
-  <div class="users--lists">
+<div class="my-3">
+  <h3 class="font-medium text-3xl text-center md:text-left mt-3 mb-1">
+    Event Participants
+  </h3>
+  <div class="flex flex-wrap justify-center md:justify-normal">
     {% for user in event.participants.all %}
     <a href="{% url 'profile' user.id %}">
-      <div class="wrapper--user">
-        <img class="user--avatar--sm" src="{{user.avatar.url}}" />
-        <h4>{{user.name}}</h4>
+      <div
+        class="flex flex-col items-center p-4 rounded-md text-center max-w-[200px]"
+      >
+        <img
+          class="h-14 w-14 object-cover rounded-full"
+          src="{{ user.avatar.url }}"
+        />
+        <h4 class="font-medium text-xl text-center md:text-left mt-3 mb-1">
+          {{ user.name }}
+        </h4>
         {% if user.bio %}
-        <p>{{user.bio|truncatechars:50}}</p>
+        <p>{{ user.bio|truncatechars:50 }}</p>
         {% endif %}
       </div>
     </a>

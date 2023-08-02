@@ -77,6 +77,16 @@ def home_page(request):
     context = {'users': users, 'events': events, 'count': count, 'paginator': paginator, 'pages': pages}
     return render(request, 'home.html', context)
 
+def hackathons_page(request):
+    events = Event.objects.filter(event_type='hackathon')
+    context = {'events': events}
+    return render(request, 'hackathons.html', context)
+
+def seminars_page(request):
+    events = Event.objects.filter(event_type='seminar')
+    context = {'events': events}
+    return render(request, 'seminars.html', context)
+
 def user_page(request, pk):
     user = User.objects.get(id=pk)
     context = {'user':user}
@@ -133,10 +143,12 @@ def event_page(request, pk):
 
     registered = False
     submitted = False
+    isHackathon = event.event_type == 'hackathon'
+    print(isHackathon)
     if request.user.is_authenticated:
         registered = request.user.events.filter(id=event.id).exists()
         submitted = Submission.objects.filter(participant=request.user, event=event).exists()
-    context = {'event': event, 'past_deadline': past_deadline,'registered': registered, 'submitted': submitted}
+    context = {'event': event, 'past_deadline': past_deadline,'registered': registered, 'submitted': submitted, 'isHackathon': isHackathon}
     return render(request, 'event.html', context)
 
 @login_required()
