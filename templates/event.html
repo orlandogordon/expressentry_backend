@@ -4,7 +4,7 @@
 </div>
 {% if past_deadline == False %}
 <div class="my-3 flex flex-row">
-  {% if registered and isHackathon %} {% if submitted %}
+  {% if authenticated %} {% if registered and isHackathon %} {% if submitted %}
   <p class="text-green-700 py-2">You have already submitted your project</p>
   {% else %}
   <a
@@ -18,6 +18,9 @@
     href="{% url 'registration-confirmation' event.id %}"
     >Register</a
   >
+  {% endif %} {% else %}
+  <p class="text-xl font-medium">Login required to register for this event.</p>
+
   {% endif %}
 </div>
 {% else %}

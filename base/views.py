@@ -79,7 +79,21 @@ def home_page(request):
 
 def hackathons_page(request):
     events = Event.objects.filter(event_type='hackathon')
-    context = {'events': events}
+    active_events = []
+    past_events = []
+
+    present = datetime.now().timestamp()
+    for event in events:
+        deadline = event.registration_deadline.timestamp()
+        past_deadline = (present > deadline)
+        if past_deadline:
+            past_events.append(event)
+        else:
+            active_events.append(event)
+
+    print('Date', past_events[0].start_date)
+    print('Date Type', type(past_events[0].start_date))
+    context = {'active_events': active_events, 'past_events': past_events}
     return render(request, 'hackathons.html', context)
 
 def seminars_page(request):
@@ -135,7 +149,6 @@ def change_password(request):
 
 def event_page(request, pk):
     event = Event.objects.get(id=pk)
-    ## add functionality for date time compare of deadline and current time
     present = datetime.now().timestamp()
     deadline = event.registration_deadline.timestamp()
     past_deadline = (present > deadline)
@@ -146,9 +159,13 @@ def event_page(request, pk):
     isHackathon = event.event_type == 'hackathon'
     print(isHackathon)
     if request.user.is_authenticated:
+        authenticated = True
         registered = request.user.events.filter(id=event.id).exists()
         submitted = Submission.objects.filter(participant=request.user, event=event).exists()
-    context = {'event': event, 'past_deadline': past_deadline,'registered': registered, 'submitted': submitted, 'isHackathon': isHackathon}
+    else:
+        authenticated = False
+
+    context = {'event': event, 'past_deadline': past_deadline, 'authenticated': authenticated, 'registered': registered, 'submitted': submitted, 'isHackathon': isHackathon}
     return render(request, 'event.html', context)
 
 @login_required()
