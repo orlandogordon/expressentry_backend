@@ -47,11 +47,10 @@
   </div>
   {% endif %}
 </div>
+{% if user.bio %}
 <div
   class="my-3 w-11/12 md:w-1/2 mx-auto border border-slate-400 shadow-lg p-5"
 >
-  {% if user.bio %}
   <p>{{ user.bio }}</p>
-  {% endif %}
 </div>
-{% endblock content %}
+{% endif %} {% endblock content %}

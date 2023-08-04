@@ -13,6 +13,8 @@ from datetime import datetime
 
 def login_page(request):
     page='login'
+    messages.info(request, 'Test Credentials: Email: test@example.com, Password: 1234pass')
+
 
     if request.method == "POST":
         user = authenticate(
@@ -33,7 +35,10 @@ def login_page(request):
     return render(request, 'login_register.html', context)
 
 def register_page(request):
+    messages.info(request, 'Test Credentials: Email: test@example.com, Password: 1234pass')
     form = CustomUserCreateForm()
+    if request.user.is_authenticated:
+        return redirect('hackathons')
     if request.method == 'POST':
         form = CustomUserCreateForm(request.POST)
         if form.is_valid():
@@ -81,7 +86,6 @@ def hackathons_page(request):
     events = Event.objects.filter(event_type='hackathon')
     active_events = []
     past_events = []
-
     present = datetime.now().timestamp()
     for event in events:
         deadline = event.registration_deadline.timestamp()
@@ -91,14 +95,23 @@ def hackathons_page(request):
         else:
             active_events.append(event)
 
-    print('Date', past_events[0].start_date)
-    print('Date Type', type(past_events[0].start_date))
     context = {'active_events': active_events, 'past_events': past_events}
     return render(request, 'hackathons.html', context)
 
 def seminars_page(request):
     events = Event.objects.filter(event_type='seminar')
-    context = {'events': events}
+    active_events = []
+    past_events = []
+    present = datetime.now().timestamp()
+    for event in events:
+        deadline = event.registration_deadline.timestamp()
+        past_deadline = (present > deadline)
+        if past_deadline:
+            past_events.append(event)
+        else:
+            active_events.append(event)
+
+    context = {'active_events': active_events, 'past_events': past_events}
     return render(request, 'seminars.html', context)
 
 def user_page(request, pk):
@@ -129,6 +142,10 @@ def edit_account(request):
 
 @login_required(login_url='login')
 def change_password(request):
+    if str(request.user.id) == '268f17e4-4f5a-4ac3-96ea-64678db81012':
+        messages.error(request, 'Password reset of the test account is not allowed.')
+        return redirect('account')
+
     if request.method == 'POST':
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
@@ -157,7 +174,6 @@ def event_page(request, pk):
     registered = False
     submitted = False
     isHackathon = event.event_type == 'hackathon'
-    print(isHackathon)
     if request.user.is_authenticated:
         authenticated = True
         registered = request.user.events.filter(id=event.id).exists()

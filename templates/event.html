@@ -1,7 +1,14 @@
 {% extends 'main.html' %} {% block content %}
 <div class="mt-10 mb-3">
-  <h1 class="text-5xl text-center font-medium">{{ event.name }}</h1>
+  <h1 class="text-xl md:text-3xl xl:text-5xl text-center font-medium">
+    {{ event.name }}
+  </h1>
 </div>
+<img
+  class="w-5/6 md:w-1/2 xl:max-h-[800px] rounded-md object-cover mx-auto"
+  src="{{ event.cover_photo.url }}"
+  alt="Event Cover Photo"
+/>
 {% if past_deadline == False %}
 <div class="my-3 flex flex-row">
   {% if authenticated %} {% if registered and isHackathon %} {% if submitted %}

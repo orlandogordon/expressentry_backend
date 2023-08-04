@@ -57,6 +57,9 @@ module.exports = {
         "secondary-500": "#2A446B",
         "secondary-700": "#223858",
       },
+      screens: {
+        xxxl: "2000px",
+      },
     },
   },
   plugins: [

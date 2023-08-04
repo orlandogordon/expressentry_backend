@@ -10,7 +10,7 @@ class User(AbstractUser):
     bio = models.TextField(null=True, blank=True)
     hackathon_participant = models.BooleanField(default=True, null=True)
 
-    avatar = ResizedImageField(size=[250,250], crop=['middle', 'center'], upload_to="images/", default='avatar.png')
+    avatar = ResizedImageField(size=[250,250], crop=['middle', 'center'], upload_to="images/", default='images/default-avatar.png')
 
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False)
 
@@ -32,6 +32,7 @@ class Event(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField(null=True, blank=True)
     event_type = models.CharField(max_length=100, choices=CHOICES, default='hackathon')
+    cover_photo = ResizedImageField(size=[2400,1600], crop=['middle', 'center'], upload_to="images/", default='images/default-hackathon.png')
     participants = models.ManyToManyField(User, blank=True, related_name='events') 
     start_date = models.DateTimeField(null=True)
     end_date = models.DateTimeField(null=True)
@@ -43,6 +44,7 @@ class Event(models.Model):
 
     def __str__(self):
         return self.name
+
     
 class Submission(models.Model):
     participant = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='submissions')
